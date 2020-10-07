@@ -14,6 +14,6 @@ let symbols = ['a','b','c','d','e','f','g','h'];
 let ourColor = 'W';
 let opponentColor = 'B';
 
-let plyDepth = 5;
+let plyDepth = 4;
 
 let doWeMoveFirst = true;
