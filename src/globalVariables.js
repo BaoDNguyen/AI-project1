@@ -16,4 +16,13 @@ let opponentColor = 'B';
 
 let plyDepth = 4;
 
+let inputMove = {};
+
+let path = [];      // store path to the winning state
+
+let running = false;
+
 let doWeMoveFirst = true;
+
+let isFirstRound = true;
+
