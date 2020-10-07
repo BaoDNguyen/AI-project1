@@ -19,6 +19,7 @@ d3.select('#myInput2').on('input',function (){
 function writeOutput (myOutput,canMove) {
     let canvas = document.getElementById("myOutput");
     let ctx = canvas.getContext("2d");
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.beginPath();
     ctx.font = '30px Arial';
     if (canMove) {
@@ -37,6 +38,7 @@ function writeOutput (myOutput,canMove) {
 function writeBoard (state,isOurMove) {
     let canvas = (!isOurMove) ? document.getElementById('inputBoard') : document.getElementById('outputBoard');
     let ctx = canvas.getContext('2d');
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.beginPath();
     ctx.rect(30,0,240,240);
     ctx.fillStyle = 'rgb(220,220,220)';
