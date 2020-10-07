@@ -70,7 +70,7 @@ function writeBoard (state,isOurMove) {
                     ctx.beginPath();
                     ctx.font = '20px Arial';
                     ctx.fillStyle = 'rgb(0,0,0)';
-                    ctx.fillText(i.toString(),30*j+5,270-30*i-5);
+                    ctx.fillText((i-1).toString(),30*j+5,270-30*i-5);
                     ctx.fill();
                     ctx.closePath();
                 } else {
@@ -101,20 +101,19 @@ function main() {
             if (result!=null) writeOutput(path[0],true);
         } else {
             state =  updateBoard(board,inputMove);
-            writeBoard(state,false);
             result = Minimax(state,-Infinity,+Infinity,0,null);
             if (result!=null) writeOutput(path[0],true);
         }
         isFirstRound = false;
     } else {
         state = updateBoard(board,inputMove);
-        writeBoard(state,false);
         result = Minimax(state,-Infinity,+Infinity,0,null);
         if (result!=null) writeOutput(path[0],true);
     }
-    if (result!=null) {
+    if (result!=null && path[0]) {
         board = updateBoard(state,path[0]);
         writeBoard(board,true);
+        writeBoard(state,false);
     }      // board after we move
     else writeOutput(null,false);
 }
