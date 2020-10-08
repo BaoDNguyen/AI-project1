@@ -7,7 +7,7 @@ function evaluateHeuristics (state) {
             if (state[i][j] === opponentColor) oppPieces.push([i,j]);
         }
     }
-    let result = 2*(ourPieces.length - oppPieces.length);
+    let result = heuristicConstant*(ourPieces.length - oppPieces.length);
     let count = 0;
     if (ourPieces.length > 0) {
         count = 0;      // count total possible squares to move

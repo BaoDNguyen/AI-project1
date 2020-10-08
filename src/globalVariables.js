@@ -16,6 +16,8 @@ let opponentColor = 'B';
 
 let plyDepth = 4;
 
+let heuristicConstant = 2;
+
 let inputMove = {};
 
 let path = [];      // store path to the winning state
