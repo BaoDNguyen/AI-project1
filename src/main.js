@@ -87,30 +87,53 @@ function writeBoard (state,isOurMove) {
             }
         }
     }
-    // let from = (isOurMove) ? path[0].from : inputMove.from;
-    // let to = (isOurMove) ? path[0].to : inputMove.to;
-    // if (from && to) {
-    //     let j1 = symbols.findIndex(e=>e===from.substring(0,1));
-    //     let j2 = symbols.findIndex(e=>e===to.substring(0,1));
-    //     let i1 = +from.substring(1);
-    //     let i2 = +to.substring(1);
-    //     let x1 = (j1===j2) ? 30+30*(j1)+15 : 30+30*(j1)+5;
-    //     let x2 = (j1===j2) ? 30+30*(j2)+15 : 30+30*(j2)+5;
-    //     let y1 = (j1===j2) ? 270-30*(i1+1)-5 : 270-30*(i1+1)-15;
-    //     let y2 = (j1===j2) ? 270-30*(i2+1)-5 : 270-30*(i2+1)-15;
-    //     ctx.beginPath();
-    //     ctx.moveTo(x1,y1);
-    //     ctx.lineTo(x2,y2);
-    //     ctx.strokeStyle = (isOurMove) ? 'rgb(255,0,0)' : 'rgb(0,0,255)';
-    //     ctx.stroke();
-    //     ctx.beginPath();
-    //     ctx.moveTo(x2,y2);
-    //     ctx.lineTo(x2-5,y2-5);
-    //     ctx.lineTo(30+30*(j2)+10,270-30*(i2+1));
-    //     ctx.lineTo(30+30*(j2)+5,270-30*(i2+1)-5);
-    //     ctx.fillStyle = (isOurMove) ? 'rgb(255,0,0)' : 'rgb(0,0,255)';
-    //     ctx.fill();
-    // }
+    let from = (isOurMove) ? path[0].from : inputMove.from;
+    let to = (isOurMove) ? path[0].to : inputMove.to;
+    if (from && to) {
+        let j1 = symbols.findIndex(e=>e===from.substring(0,1));
+        let j2 = symbols.findIndex(e=>e===to.substring(0,1));
+        let i1 = +from.substring(1);
+        let i2 = +to.substring(1);
+        let x1 = 30+30*(j1)+15;
+        let y1 = 270-30*(i1+1)-15;
+        let x2, y2;
+        let x3, y3, x4, y4;
+        if (j1===j2) {
+            x2 = 30+30*(j2)+15;
+            if (i1 < i2) {
+                y2 = 270-30*(i2+1)-5;
+                x3 = x2-5; y3 = y2+5;
+                x4 = x2+5; y4 = y2+5;
+            } else {
+                y2 = 270-30*(i2+1)-25;
+                x3 = x2-5; y3 = y2-5;
+                x4 = x2+5; y4 = y2-5;
+            }
+        } else {
+            y2 = 270-30*(i2+1)-15;
+            if (j1 < j2) {
+                x2 = 30+30*(j2)+5;
+                x3 = x2-5; y3 = y2-5;
+                x4 = x2-5; y4 = y2+5;
+            } else {
+                x2 = 30+30*(j2)+25;
+                x3 = x2+5; y3 = y2-5;
+                x4 = x2+5; y4 = y2+5;
+            }
+        }
+        ctx.beginPath();
+        ctx.moveTo(x1,y1);
+        ctx.lineTo(x2,y2);
+        ctx.strokeStyle = (isOurMove) ? 'rgb(255,0,0)' : 'rgb(0,0,255)';
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.moveTo(x2,y2);
+        ctx.lineTo(x3,y3);
+        ctx.lineTo(x4,y4);
+        ctx.lineTo(x2,y2);
+        ctx.fillStyle = (isOurMove) ? 'rgb(255,0,0)' : 'rgb(0,0,255)';
+        ctx.fill();
+    }
 }
 
 function main() {
