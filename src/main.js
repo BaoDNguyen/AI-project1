@@ -1,7 +1,7 @@
 d3.select('#pickColor').on('change',function (){
-    ourColor = this.value;
-    if (ourColor==='B') opponentColor = 'W';
-    else opponentColor = 'B';
+    opponentColor = this.value;
+    if (opponentColor==='B') ourColor = 'W';
+    else ourColor = 'B';
 });
 
 d3.select('#moveFirst').on('change',function (){
@@ -87,9 +87,34 @@ function writeBoard (state,isOurMove) {
             }
         }
     }
+    // let from = (isOurMove) ? path[0].from : inputMove.from;
+    // let to = (isOurMove) ? path[0].to : inputMove.to;
+    // if (from && to) {
+    //     let j1 = symbols.findIndex(e=>e===from.substring(0,1));
+    //     let j2 = symbols.findIndex(e=>e===to.substring(0,1));
+    //     let i1 = +from.substring(1);
+    //     let i2 = +to.substring(1);
+    //     let x1 = (j1===j2) ? 30+30*(j1)+15 : 30+30*(j1)+5;
+    //     let x2 = (j1===j2) ? 30+30*(j2)+15 : 30+30*(j2)+5;
+    //     let y1 = (j1===j2) ? 270-30*(i1+1)-5 : 270-30*(i1+1)-15;
+    //     let y2 = (j1===j2) ? 270-30*(i2+1)-5 : 270-30*(i2+1)-15;
+    //     ctx.beginPath();
+    //     ctx.moveTo(x1,y1);
+    //     ctx.lineTo(x2,y2);
+    //     ctx.strokeStyle = (isOurMove) ? 'rgb(255,0,0)' : 'rgb(0,0,255)';
+    //     ctx.stroke();
+    //     ctx.beginPath();
+    //     ctx.moveTo(x2,y2);
+    //     ctx.lineTo(x2-5,y2-5);
+    //     ctx.lineTo(30+30*(j2)+10,270-30*(i2+1));
+    //     ctx.lineTo(30+30*(j2)+5,270-30*(i2+1)-5);
+    //     ctx.fillStyle = (isOurMove) ? 'rgb(255,0,0)' : 'rgb(0,0,255)';
+    //     ctx.fill();
+    // }
 }
 
 function main() {
+    let t1 = performance.now();
     let result = null;
     let state = null;       // board after opponent's move
     path.length = 0;
@@ -118,4 +143,6 @@ function main() {
         writeBoard(state,false);
     }      // board after we move
     else writeOutput(null,false);
+    let t2 = performance.now();
+    console.log('running time: '+(t2-t1).toString());
 }

@@ -11,25 +11,25 @@
 
 <!--pick color-->
 <div>
-    <label for="pickColor">Pick our color</label>
+    <label for="pickColor">Pick your color</label>
     <select name="pickColor" id="pickColor">
-        <option value="B">Black</option>
-        <option selected value="W">White</option>
+        <option selected value="B">Black</option>
+        <option value="W">White</option>
     </select>
 </div>
 
 <!--who goes first-->
 <div>
-    <label for="moveFirst">Who goes first</label>
+    <label for="moveFirst">Who is player 1</label>
     <select id="moveFirst">
-        <option selected value="true">We move first</option>
-        <option value="false">Opponent moves first</option>
+        <option selected value="true">Computer</option>
+        <option value="false">You</option>
     </select>
 </div>
 
 <!--Input opponent's move-->
 <div>
-    <label for="myInput1">Input opponent's move from</label>
+    <label for="myInput1">Input your move from</label>
     <input type="text" id="myInput1">
     <label for="myInput2">to</label>
     <input type="text" id="myInput2">
@@ -51,11 +51,11 @@
 
 <!--the board-->
 <div>
-    <p>Board after opponent's move</p>
+    <p>Board after your move</p>
     <canvas id="inputBoard" height="270" width="270"></canvas>
 </div>
 <div>
-    <p>Board after our move</p>
+    <p>Board after computer's move</p>
     <canvas id="outputBoard" height="270" width="270"></canvas>
 </div>
 
