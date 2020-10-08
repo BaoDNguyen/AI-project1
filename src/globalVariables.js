@@ -28,3 +28,5 @@ let doWeMoveFirst = true;
 
 let isFirstRound = true;
 
+let counter = 0;
+

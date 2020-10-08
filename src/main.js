@@ -5,7 +5,7 @@ d3.select('#pickColor').on('change',function (){
 });
 
 d3.select('#moveFirst').on('change',function (){
-    doWeMoveFirst = this.value;
+    doWeMoveFirst = this.value === 'computer';
 });
 
 d3.select('#myInput1').on('input',function (){
@@ -21,21 +21,21 @@ function writeOutput (myOutput,canMove) {
     let ctx = canvas.getContext("2d");
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.beginPath();
-    ctx.font = '30px Arial';
+    ctx.font = '20px Arial';
     if (canMove) {
         let from = myOutput.from;
         let to = myOutput.to;
-        let str = 'we move from ' + from + ' to ' +to;
+        let str = 'Computer moves from ' + from + ' to ' +to;
         ctx.fillText(str,10,40);
 
     } else {
-        ctx.fillText('We cannot move anymore!',10,40);
+        ctx.fillText('Computer cannot move!',10,40);
     }
     ctx.fill();
     ctx.closePath();
 }
 
-function writeBoard (state,isOurMove) {
+function writeBoard (state,isOurMove,withArrows) {
     let canvas = (!isOurMove) ? document.getElementById('inputBoard') : document.getElementById('outputBoard');
     let ctx = canvas.getContext('2d');
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -87,53 +87,79 @@ function writeBoard (state,isOurMove) {
             }
         }
     }
-    let from = (isOurMove) ? path[0].from : inputMove.from;
-    let to = (isOurMove) ? path[0].to : inputMove.to;
-    if (from && to) {
-        let j1 = symbols.findIndex(e=>e===from.substring(0,1));
-        let j2 = symbols.findIndex(e=>e===to.substring(0,1));
-        let i1 = +from.substring(1);
-        let i2 = +to.substring(1);
-        let x1 = 30+30*(j1)+15;
-        let y1 = 270-30*(i1+1)-15;
-        let x2, y2;
-        let x3, y3, x4, y4;
-        if (j1===j2) {
-            x2 = 30+30*(j2)+15;
-            if (i1 < i2) {
-                y2 = 270-30*(i2+1)-5;
-                x3 = x2-5; y3 = y2+5;
-                x4 = x2+5; y4 = y2+5;
+    if (withArrows) {
+        let from = (isOurMove) ? path[0].from : inputMove.from;
+        let to = (isOurMove) ? path[0].to : inputMove.to;
+        if (from && to) {
+            let j1 = symbols.findIndex(e=>e===from.substring(0,1));
+            let j2 = symbols.findIndex(e=>e===to.substring(0,1));
+            let i1 = +from.substring(1);
+            let i2 = +to.substring(1);
+            let x1 = 30+30*(j1)+15;
+            let y1 = 270-30*(i1+1)-15;
+            let x2, y2;
+            let x3, y3, x4, y4;
+            if (j1===j2) {
+                x2 = 30+30*(j2)+15;
+                if (i1 < i2) {
+                    y2 = 270-30*(i2+1)-5;
+                    x3 = x2-5; y3 = y2+5;
+                    x4 = x2+5; y4 = y2+5;
+                } else {
+                    y2 = 270-30*(i2+1)-25;
+                    x3 = x2-5; y3 = y2-5;
+                    x4 = x2+5; y4 = y2-5;
+                }
             } else {
-                y2 = 270-30*(i2+1)-25;
-                x3 = x2-5; y3 = y2-5;
-                x4 = x2+5; y4 = y2-5;
+                y2 = 270-30*(i2+1)-15;
+                if (j1 < j2) {
+                    x2 = 30+30*(j2)+5;
+                    x3 = x2-5; y3 = y2-5;
+                    x4 = x2-5; y4 = y2+5;
+                } else {
+                    x2 = 30+30*(j2)+25;
+                    x3 = x2+5; y3 = y2-5;
+                    x4 = x2+5; y4 = y2+5;
+                }
             }
-        } else {
-            y2 = 270-30*(i2+1)-15;
-            if (j1 < j2) {
-                x2 = 30+30*(j2)+5;
-                x3 = x2-5; y3 = y2-5;
-                x4 = x2-5; y4 = y2+5;
-            } else {
-                x2 = 30+30*(j2)+25;
-                x3 = x2+5; y3 = y2-5;
-                x4 = x2+5; y4 = y2+5;
-            }
+            ctx.beginPath();
+            ctx.moveTo(x1,y1);
+            ctx.lineTo(x2,y2);
+            ctx.strokeStyle = (isOurMove) ? 'rgb(255,0,0)' : 'rgb(0,0,255)';
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(x2,y2);
+            ctx.lineTo(x3,y3);
+            ctx.lineTo(x4,y4);
+            ctx.lineTo(x2,y2);
+            ctx.fillStyle = (isOurMove) ? 'rgb(255,0,0)' : 'rgb(0,0,255)';
+            ctx.fill();
         }
-        ctx.beginPath();
-        ctx.moveTo(x1,y1);
-        ctx.lineTo(x2,y2);
-        ctx.strokeStyle = (isOurMove) ? 'rgb(255,0,0)' : 'rgb(0,0,255)';
-        ctx.stroke();
-        ctx.beginPath();
-        ctx.moveTo(x2,y2);
-        ctx.lineTo(x3,y3);
-        ctx.lineTo(x4,y4);
-        ctx.lineTo(x2,y2);
-        ctx.fillStyle = (isOurMove) ? 'rgb(255,0,0)' : 'rgb(0,0,255)';
-        ctx.fill();
     }
+}
+
+function writeError(str) {
+    let canvas = document.getElementById('myIns');
+    let ctx = canvas.getContext('2d');
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.beginPath();
+    ctx.font = '20px Arial';
+    ctx.fillStyle = 'rgb(0,0,0)';
+    ctx.fillText(str,10,40);
+    ctx.fill();
+    ctx.closePath();
+}
+
+function writeCounter(counter) {
+    let canvas = document.getElementById('counter');
+    let ctx = canvas.getContext('2d');
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.beginPath();
+    ctx.font = '20px Arial';
+    ctx.fillStyle = 'rgb(0,0,0)';
+    ctx.fillText('Total rounds for computer and player: '+counter.toString(),10,40);
+    ctx.fill();
+    ctx.closePath();
 }
 
 function main() {
@@ -150,22 +176,58 @@ function main() {
             result = Minimax(board,-Infinity,+Infinity,0,null);
             if (result!=null) writeOutput(path[0],true);
         } else {
-            state =  updateBoard(board,inputMove);
-            result = Minimax(state,-Infinity,+Infinity,0,null);
-            if (result!=null) writeOutput(path[0],true);
+            if (inputMove.from && inputMove.to) {
+                // check inputMove
+                let str1 = inputMove.from;
+                let str2 = inputMove.to;
+                let col1 = symbols.findIndex(e=>e===str1.substring(0,1));
+                let col2 = symbols.findIndex(e=>e===str2.substring(0,1));
+                let row1 = +str1.substring(1);
+                let row2 = +str2.substring(1);
+                if (col1!==-1 && col2!==-1 && row1>=0 && row1 <=7 && row2>=0 && row2<=7) {
+                    // run program
+                    state =  updateBoard(board,inputMove);
+                    if (typeof(state) === 'string') writeError('Wrong input move!');
+                    else {
+                        result = Minimax(state,-Infinity,+Infinity,0,null);
+                        if (result!=null) writeOutput(path[0],true);
+                    }
+                } else writeError('Wrong input move!');
+            } else writeError('Please input your move!')
         }
+    } else {
+        if (inputMove.from && inputMove.to) {
+            // check inputMove
+            let str1 = inputMove.from;
+            let str2 = inputMove.to;
+            let col1 = symbols.findIndex(e=>e===str1.substring(0,1));
+            let col2 = symbols.findIndex(e=>e===str2.substring(0,1));
+            let row1 = +str1.substring(1);
+            let row2 = +str2.substring(1);
+            if (col1!==-1 && col2!==-1 && row1>=0 && row1 <=7 && row2>=0 && row2<=7) {
+                state = updateBoard(board,inputMove);
+                if (typeof (state) === 'string') writeError('Wrong input move!');
+                else {
+                    result = Minimax(state,-Infinity,+Infinity,0,null);
+                    if (result!=null) writeOutput(path[0],true);
+                }
+            } else writeError('Wrong input move!');
+        } else writeError('Please input your move!')
+
+    }
+    if (result!=null && path[0].from && path[0].to && state!=null) {
+        board = updateBoard(state,path[0]);
+        writeBoard(board,true,true);
+        if (isFirstRound && doWeMoveFirst) writeBoard(state,false,false);
+        else writeBoard(state,false,true);
+        counter = counter + 2;
         isFirstRound = false;
     } else {
-        state = updateBoard(board,inputMove);
-        result = Minimax(state,-Infinity,+Infinity,0,null);
-        if (result!=null) writeOutput(path[0],true);
+        if (state == null) writeError('Need correct input');
+        else writeOutput(null,false);
     }
-    if (result!=null && path[0]) {
-        board = updateBoard(state,path[0]);
-        writeBoard(board,true);
-        writeBoard(state,false);
-    }      // board after we move
-    else writeOutput(null,false);
+    inputMove = {};
+    writeCounter(counter);
     let t2 = performance.now();
     console.log('running time: '+(t2-t1).toString());
 }

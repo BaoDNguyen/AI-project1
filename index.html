@@ -22,8 +22,8 @@
 <div>
     <label for="moveFirst">Who is player 1</label>
     <select id="moveFirst">
-        <option selected value="true">Computer</option>
-        <option value="false">You</option>
+        <option selected value="computer">Computer</option>
+        <option value="you">You</option>
     </select>
 </div>
 
@@ -41,8 +41,15 @@
     <button type="button" id="run" onclick="main()">Run the program</button>
 </div>
 
+<!--counter of rounds-->
+<div>
+    <canvas id="counter" height="50" width="600"></canvas>
+</div>
+
 <!--instruction-->
-<div id="myIns"></div>
+<div>
+    <canvas id="myIns" height="50" width="1000"></canvas>
+</div>
 
 <!--output our move-->
 <div>
