@@ -16,7 +16,7 @@ let opponentColor = 'B';
 
 let plyDepth = 4;
 
-let heuristicConstant = 2;
+let heuristicConstant = 5;
 
 let inputMove = {};
 
